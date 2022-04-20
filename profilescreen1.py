@@ -1,6 +1,8 @@
 ps1 = """
 <ProfileScreen1>:
     name:'profile1'
+    FitImage:
+        source:"themes\classic_theme\profile.png"
     MDToolbar:
         title:"Profile" 
         pos_hint:{'top':1.0}  

@@ -18,22 +18,39 @@
 ss = """
 <SettingsScreen>:
     name:'settings'
+    FitImage:
+        source:"themes\classic_theme\setting.png"
+        
     MDBoxLayout:
         orientation:'vertical'
+        
         MDToolbar:
             title:"Settings" 
             pos_hint:{'top':1.0}  
             left_action_items:[["home", lambda x:app.go_back('home')]]
             elevation:10
         
+        
         ScrollView:
             MDList:
                 OneLineListItem:
-                    text:'Theme'
+                    text:'Custom Theme'
                     on_press:
                         app.show_themepicker()
                         root.f=1
+                
+                OneLineListItem:
+                    text:'Classic Theme'
+                    on_press:
+                        #app.theme_pack()
+                        #root.f=2
         
+                OneLineListItem:
+                    text:'Default Theme'
+                    on_press:
+                        #app.show_themepicker()
+                        #root.f=3
+                    
         MDRectangleFlatButton:
             text:"Save Changes" 
             #pos_hint:{'center_x': 0.8, 'center_y': 0.5}
