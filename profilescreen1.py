@@ -10,6 +10,7 @@ ps1 = """
         elevation:10
     
     MDCard:
+        focus_behavior:True
         size_hint:.7,.7
         pos_hint:{'center_x': 0.5, 'center_y': 0.45}
         elevation:25
@@ -24,13 +25,15 @@ ps1 = """
                 #size_hint_x:None
                 #width:250
                 color_mode:'accent'
+                line_color_normal:app.theme_cls.accent_color
                 required:True
             
             MDFillRoundFlatButton:
                 text:"Get OTP"
+                text_color:app.theme_cls.accent_color
                 pos_hint:{'center_x': 0.5, 'center_y': 0.70}
                 #disabled:True if mail.text== '' else False
-                md_bg_color:0,0.5,0,1
+                #md_bg_color:0,0.5,0,1
                 on_press:
                     app.toast_text(0)
     
@@ -49,11 +52,13 @@ ps1 = """
                 #width:250
                 color_mode:'accent'
                 required:True
+                line_color_normal:app.theme_cls.accent_color
             
             MDFillRoundFlatButton:
                 text:"Submit"
+                text_color:app.theme_cls.accent_color
                 pos_hint:{'center_x': 0.5, 'center_y': 0.45}
-                md_bg_color:.0,0.5,0,1
+                #md_bg_color:.0,0.5,0,1
                 #disabled:True if otp.text== '' else False
                 on_press:
                     app.validate_otp(root.no)
@@ -69,11 +74,13 @@ ps1 = """
                 #width:250
                 color_mode:'accent'
                 required:True
+                line_color_normal:app.theme_cls.accent_color
                     
             MDFillRoundFlatButton:
                 text:"Register"
+                text_color:app.theme_cls.accent_color
                 pos_hint:{'center_x': 0.5, 'center_y': 0.20}
-                md_bg_color:.5,0,0,1
+                #md_bg_color:.5,0,0,1
                 on_press:
                     app.register()
                     #root.manager.current='profile2'

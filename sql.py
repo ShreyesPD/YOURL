@@ -22,7 +22,8 @@ def search_data(self, link):
 
     # for user in users:
     #   print(user)
-
+    mycursor1.close()
+    mydb1.close()
     return users
 
 
@@ -45,5 +46,7 @@ def profile_data(self):
         mycursor2.execute('INSERT INTO profile(email_id,name) VALUES(%s,%s)', [mail, name])
         mydb2.commit()
 
+    mycursor2.close()
+    mydb2.close()
 # p1 = Connection()
 # p1.connect()

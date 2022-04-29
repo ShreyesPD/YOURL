@@ -13,6 +13,7 @@ shs = """
     
     BoxLayout:
         orientation:'vertical'
+        
         MDLabel:
             id:label1
             text:'URL'
@@ -22,6 +23,16 @@ shs = """
             id:label2
             text:'STATUS'
             #pos_hint:{'center_x': 0.5, 'center_y': 0.5}
+        
+        BoxLayout:
+            MDLabel:
+                id:label7
+                text:'User Rating: '
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3} 
+            MDLabel:
+                id:label6
+                text:'User Rating'
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3} 
         
         MDRectangleFlatButton:
             text:"Next" 
@@ -59,12 +70,17 @@ shs2 = """
         left_action_items:[["home", lambda x:app.go_back('home')]]
         elevation:10
         #size_hint_x:1
-    
-    MDLabel:
-        id:label3
-        text:'STATUS'
-        #pos_hint:{'center_x': 0.5, 'center_y': 0.3} 
-    
+    MDBoxLayout:
+        MDLabel:
+            id:label15
+            text:'VIRUSTOTAL API: '
+            #pos_hint:{'center_x': 0.5, 'center_y': 0.5} 
+        
+        MDLabel:
+            id:label3
+            text:'STATUS'
+            #pos_hint:{'center_x': 0.7, 'center_y': 0.7} 
+        
     MDRectangleFlatButton:
         text:"Previous" 
         pos_hint:{'center_x': 0.13, 'center_y': 0.04}
@@ -87,33 +103,56 @@ shs3 = """
     FitImage:
         source:'themes\classic_theme\search.png'
 
-    MDToolbar:
-        title:"Search Results" 
-        pos_hint:{'top':1.0}  
-        left_action_items:[["home", lambda x:app.go_back('home')]]
-        elevation:10
-        #size_hint_x:1
+    MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title:"Search Results" 
+            pos_hint:{'top':1.0}  
+            left_action_items:[["home", lambda x:app.go_back('home')]]
+            elevation:10
+            #size_hint_x:1
 
-    MDLabel:
-        id:label4
-        text:'Domain Info'
-        #pos_hint:{'center_x': 0.5, 'center_y': 0.3} 
+        ScrollView:
+            Label:
+                id:label4
+                # size_hint_x: 1.0
+                size_hint_y: None
+                height: self.texture_size[1]
+                text_size: self.width,None
+                text:'Domain Info'
+                align: 'left'
 
-    MDRectangleFlatButton:
-        text:"Previous" 
-        pos_hint:{'center_x': 0.13, 'center_y': 0.04}
-        #disabled:True if root.f== 0 else False      
-        on_press:
-            root.manager.current='search2'
+            #pos_hint:{'center_x': 0.5, 'center_y': 0.3} 
 
-    MDRectangleFlatButton:
-        text:"Next" 
-        pos_hint:{'center_x': 0.87, 'center_y': 0.04}
-        #disabled:True if root.f== 0 else False      
-        on_press:
-            root.manager.current='search4'
+        MDBoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            
+            MDRectangleFlatButton:
+                text:"Previous" 
+                #pos_hint:{'center_x': 0.13, 'center_y': 0.5}
+                #disabled:True if root.f== 0 else False      
+                on_press:
+                    root.manager.current='search2'
+            
+            MDBoxLayout:
+                MDRectangleFlatButton:
+                    text:"Download Info" 
+                    #pos_hint:{'center_x': 270.4, 'center_y': 0.5}
+                    #disabled:True if root.f== 0 else False      
+                    on_press:
+                        app.downld_dinfo()
+                
+            MDRectangleFlatButton:
+                text:"Next" 
+                #pos_hint:{'center_x': 270.4, 'center_y': 0.5}
+                #disabled:True if root.f== 0 else False      
+                on_press:
+                    root.manager.current='search4'
 
 """
+
+
 shs4 = """
 <SearchScreen4>:
     name:'search4'
@@ -126,11 +165,16 @@ shs4 = """
         left_action_items:[["home", lambda x:app.go_back('home')]]
         elevation:10
         #size_hint_x:1
+    MDBoxLayout:
+        MDLabel:
+            id:label50
+            text:'Security Info'
+            #pos_hint:{'center_x': 0.5, 'center_y': 0.3} 
 
-    MDLabel:
-        id:label5
-        text:'Security Info'
-        #pos_hint:{'center_x': 0.5, 'center_y': 0.3} 
+        MDLabel:
+            id:label5
+            text:'Security Info'
+            #pos_hint:{'center_x': 0.5, 'center_y': 0.3} 
 
     MDRectangleFlatButton:
         text:"Previous" 
@@ -144,6 +188,7 @@ shs4 = """
         pos_hint:{'center_x': 0.87, 'center_y': 0.04}
         #disabled:True if root.f== 0 else False      
         on_press:
+            #root.img=app.update_path()
             root.manager.current='search5'
 
 """
@@ -153,31 +198,32 @@ shs5 = """
     name:'search5'
     FitImage:
         source:'themes\classic_theme\search.png'
-
-    MDToolbar:
-        title:"Search Results" 
-        pos_hint:{'top':1.0}  
-        left_action_items:[["home", lambda x:app.go_back('home')]]
-        elevation:10
-        #size_hint_x:1
-
-    MDLabel:
-        id:label6
-        text:'Domain Info'
-        #pos_hint:{'center_x': 0.5, 'center_y': 0.3} 
-
-    MDRectangleFlatButton:
-        text:"Previous" 
-        pos_hint:{'center_x': 0.13, 'center_y': 0.04}
-        #disabled:True if root.f== 0 else False      
-        on_press:
-            root.manager.current='search4'
-
-    # MDRectangleFlatButton:
-    #     text:"Next" 
-    #     pos_hint:{'center_x': 0.87, 'center_y': 0.04}
-    #     #disabled:True if root.f== 0 else False      
-    #     on_press:
-    #         root.manager.current='search5'
+    
+    BoxLayout:
+        orientation:'vertical'
+        MDToolbar:
+            title:"WEB Preview" 
+            pos_hint:{'top':1.0}  
+            left_action_items:[["home", lambda x:app.go_back('home')]]
+            elevation:10
+            size_hint_x:1
+           
+        #MDFloatLayout:
+        # pos_hint: {"center_y": 1}
+        # size_hint_y: None
+        #height: '5dp'
+        FitImage:
+            id:ss
+            source:'screen_shot.png'
+            #pos_hint: {"center_y": 0.5}
+            #size_hint_y:0.5 
+            #size_hint_x:1
+            
+        MDRectangleFlatButton:
+            text:"Previous" 
+            pos_hint:{'center_x': 0.13, 'center_y': 0.04}
+            #disabled:True if root.f== 0 else False      
+            on_press:
+                root.manager.current='search4'
 
 """

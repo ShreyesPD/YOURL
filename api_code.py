@@ -58,7 +58,7 @@ def testAPI(Urls):
     json_response = json.loads(response.text)
 
     if json_response['response_code'] <= 0:
-        return 'NOT FOUND'
+        return 'URL NOT FOUND'
     elif json_response['response_code'] >= 1:
 
         if json_response['positives'] <= 0:

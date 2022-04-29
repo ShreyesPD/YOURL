@@ -1,3 +1,5 @@
+import urllib.request
+from certificates import ssl_expiry_datetime
 from kivy.clock import Clock
 from kivymd.app import MDApp
 from kivymd.toast import toast
@@ -12,6 +14,8 @@ from sql import search_data, profile_data
 from local_app_data import save_theme, load_theme, load_primary, load_accent, check_status, set_status, get_profile
 from api_code import testAPI
 from domain_info import domain_info
+from ratingTest import ratingData, inputRating, outputRating
+from scratch_2 import preview
 
 Window.size = (360, 600)
 
@@ -152,18 +156,18 @@ class Demo(MDApp):
             return
 
     def get_url(self):
-        Link = self.root.get_screen('home').ids.link.text
-        users = search_data(self, Link)
+        self.Link = self.root.get_screen('home').ids.link.text
+        users = search_data(self, self.Link)
         # print(users)
         user = None
         for user in users:
             pass
-        self.root.get_screen('search').ids.label1.text = Link
+        self.root.get_screen('search').ids.label1.text = self.Link
 
         if user == None:
-            self.root.get_screen('search').ids.label2.text = "NOT FAKE"
+            self.root.get_screen('search').ids.label2.text = "Database Scan Complete : URL Not Found"
         else:
-            self.root.get_screen('search').ids.label2.text = "FAKE"
+            self.root.get_screen('search').ids.label2.text = "Database Scan Complete : URL Listed as Malicious"
 
     def register(self):
         strng1 = self.root.get_screen('profile1').ids.name.text
@@ -178,6 +182,7 @@ class Demo(MDApp):
             set_status(1, strng2, strng1)
             self.root.get_screen('profile2').ids.username.text = self.root.get_screen('profile1').ids.name.text
             self.root.get_screen('profile2').ids.emailid.text = self.root.get_screen('profile1').ids.mail.text
+            # self.eemail= self.root.get_screen('profile2').ids.emailid.text
             self.toast_text(7)
 
     def get_mail(self):
@@ -211,6 +216,10 @@ class Demo(MDApp):
             toast("Changes Saved...!")
         elif p == 9:
             toast("Theme already saved...!")
+        elif p == 10:
+            toast("Rating Exists... Insert a different URL")
+        elif p==11:
+            toast("File Downloaded")
 
     def validate_otp(self, no):
         if no == self.root.get_screen('profile1').ids.otp.text:
@@ -252,5 +261,50 @@ class Demo(MDApp):
         print(1)
         self.root.get_screen('search3').ids.label4.text = inf  # domain_info(self.root.get_screen('home').ids.link.text)
 
+    def rating_input(self):
+        self.rurl = self.root.get_screen('report').ids.rurl.text
+        self.value = self.root.get_screen('report').ids.slide.value
+        self.ff = inputRating(self.rurl).rateURL(self.value, get_profile(0))
+        print(self.rurl)
+        print(self.value)
+        if self.ff == False:
+            self.toast_text(10)
+
+    def rating_output(self):
+        # self.avg_rat = outputRating(self.Link).getRating()
+        self.root.get_screen('search').ids.label6.text = str(outputRating(self.Link).getRating())
+
+
+    def image_preview(self):
+        print(self.Link)
+        imgg = self.Link
+        self.img = preview(imgg)
+        # self.img = "https://api.screenshotmachine.com/?key=4ba519&url=cricbuzz.com&dimension=480x800&device=phone&cacheLimit=0&delay=200&zoom=100"
+        # print(self.img)
+        # print(type(self.img))
+        # SearchScreen5().var(self.Link)
+        self.downld_ss(self.img)
+
+    def downld_ss(self, url):
+        opener = urllib.request.build_opener()
+        opener.addheaders = [('User-Agent',
+                              'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1941.0 Safari/537.36')]
+        urllib.request.install_opener(opener)
+        filename = 'screen_shot.png'
+        image_url = url
+        # image_url = "https://api.screenshotmachine.com/?key=4ba519&url=cricbuzz.com&dimension=480x800&device=phone&cacheLimit=0&delay=200&zoom=100"
+        # image_url = "https://api.screenshotmachine.com/?key=4ba519&url=gcq.ac.in&dimension=480x800&device=phone&cacheLimit=0&delay=200&zoom=100"
+        urllib.request.urlretrieve(image_url, filename)
+        self.root.get_screen('search5').ids.ss.reload()
+
+    def downld_dinfo(self):
+        f = open(self.Link+"_domain_info.txt", "w+")
+        f.write(domain_info(self.Link))
+        f.close()
+        self.toast_text(11)
+
+    def ssl(self):
+        self.ssl_info=ssl_expiry_datetime(self.Link)
+        self.root.get_screen('search4').ids.label5.text=self.ssl_info
 
 Demo().run()
