@@ -17,7 +17,7 @@ def search_data(self, link):
     mydb1 = mysql_connect()
     mycursor1 = mydb1.cursor()
     # link = "www.voting-yahoo.com"
-    mycursor1.execute('SELECT DISTINCT * FROM fake_urls where domain=%s', [link])
+    mycursor1.execute('SELECT DISTINCT distinct * FROM fake_urls where domain=%s and label=1', [link])
     users = mycursor1.fetchall()
 
     # for user in users:

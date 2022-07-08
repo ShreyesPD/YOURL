@@ -41,7 +41,7 @@ ss = """
                 
                 OneLineListItem:
                     text:'Classic Theme'
-                    on_press:
+                    #on_press:
                         #app.theme_pack()
                         #root.f=2
         

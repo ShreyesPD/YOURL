@@ -11,7 +11,7 @@ from homescreen import bs
 screen_helper = """
 
 ScreenManager:
-    #BootScreen:
+    BootScreen:
     HomeScreen:
     SearchScreen:
     SearchScreen2:

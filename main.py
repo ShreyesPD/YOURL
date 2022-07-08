@@ -1,5 +1,5 @@
 import urllib.request
-from certificates import ssl_expiry_datetime
+from certificates import ssl_info
 from kivy.clock import Clock
 from kivymd.app import MDApp
 from kivymd.toast import toast
@@ -16,13 +16,20 @@ from api_code import testAPI
 from domain_info import domain_info
 from ratingTest import ratingData, inputRating, outputRating
 from scratch_2 import preview
+#from kivy.properties import StringProperty
 
 Window.size = (360, 600)
 
 
 class BootScreen(Screen):
-    pass
+    def on_enter(self, *args):
+        print(1)
+        Clock.schedule_once(self.change_screen, 20)
 
+    def change_screen(self, *args):
+        print(2)
+        self.manager.current = 'home'
+        print(3)
 
 class HomeScreen(Screen):
     pass
@@ -75,7 +82,7 @@ class SearchScreen5(Screen):
     pass
 
 
-# global sm
+#global sm
 # sm = ScreenManager()
 # sm.add_widget(BootScreen(name='boot'))
 # sm.add_widget(HomeScreen(name='home'))
@@ -86,13 +93,17 @@ class SearchScreen5(Screen):
 # sm.add_widget(ProfileScreen1(name='profile1'))
 # sm.add_widget(ProfileScreen2(name='profile2'))
 # sm.add_widget(ReportUrlScreen(name='report'))
+# sm.add_widget(SearchScreen2(name='search2'))
+# sm.add_widget(SearchScreen3(name='search3'))
+# sm.add_widget(SearchScreen4(name='search4'))
+# sm.add_widget(SearchScreen5(name='search5'))
 
-
-class Demo(MDApp):
+class Yourl(MDApp):
     picker = None
     valid = 0
+    #source="themes\classic_theme\home.png"
 
-    # global sm
+    #global sm
     sm = ScreenManager()
     sm.add_widget(BootScreen(name='boot'))
     sm.add_widget(HomeScreen(name='home'))
@@ -108,8 +119,9 @@ class Demo(MDApp):
     sm.add_widget(SearchScreen4(name='search4'))
     sm.add_widget(SearchScreen5(name='search5'))
 
-    def build(self):
 
+    def build(self):
+        self.icon="themes\logo\logo1.png"
         self.theme_cls.theme_style = load_theme()
         self.theme_cls.primary_palette = load_primary()
         self.theme_cls.accent_palette = load_accent()
@@ -124,17 +136,9 @@ class Demo(MDApp):
         # screen.add_widget(btn2)
         return screen
 
-    # def on_start(self):
-    #     print(1)
-    #     Clock.schedule_once(self.change_screen, 10)
-
-    def change_screen(self, *args):
-        print(2)
-        self.sm.current = 'home'
-        print(3)
-
     def go_back(self, screen_name):
         self.root.current = screen_name
+
 
     def show_themepicker(self):
         self.picker = MDThemePicker()
@@ -148,12 +152,11 @@ class Demo(MDApp):
         else:
             self.toast_text(9)
 
-    def theme_pack(self, path):
-        path0 = "themes"
-        path1 = "\classic_theme"
-
-        if path == "":
-            return
+    def theme_pack(self):
+        print(self.source)
+        self.source = "themes\classic_theme\profile.png"
+        self.root.get_screen('home').ids.home_image.reload()
+        print(self.source)
 
     def get_url(self):
         self.Link = self.root.get_screen('home').ids.link.text
@@ -165,9 +168,9 @@ class Demo(MDApp):
         self.root.get_screen('search').ids.label1.text = self.Link
 
         if user == None:
-            self.root.get_screen('search').ids.label2.text = "Database Scan Complete : URL Not Found"
+            self.root.get_screen('search').ids.label2.text = "Database Scan Complete : URL Not Found in the Database"
         else:
-            self.root.get_screen('search').ids.label2.text = "Database Scan Complete : URL Listed as Malicious"
+            self.root.get_screen('search').ids.label2.text = "Database Scan Complete : URL Listed as Malicious/Spam"
 
     def register(self):
         strng1 = self.root.get_screen('profile1').ids.name.text
@@ -220,6 +223,10 @@ class Demo(MDApp):
             toast("Rating Exists... Insert a different URL")
         elif p==11:
             toast("File Downloaded")
+        elif p==12:
+            toast("couldn't load image...exception occured")
+        elif p==13:
+            toast("Rating Submited..")
 
     def validate_otp(self, no):
         if no == self.root.get_screen('profile1').ids.otp.text:
@@ -249,6 +256,12 @@ class Demo(MDApp):
         else:
             self.root.current = 'report'
 
+    def feed(self):
+        if check_status()==0:
+            self.root.current='profile1'
+        else:
+            self.root.current='feedback'
+
     def get_api(self):
         value = testAPI(self.root.get_screen('home').ids.link.text)
         self.root.get_screen('search2').ids.label3.text = value
@@ -269,6 +282,8 @@ class Demo(MDApp):
         print(self.value)
         if self.ff == False:
             self.toast_text(10)
+        else:
+            self.toast_text(13)
 
     def rating_output(self):
         # self.avg_rat = outputRating(self.Link).getRating()
@@ -286,16 +301,19 @@ class Demo(MDApp):
         self.downld_ss(self.img)
 
     def downld_ss(self, url):
-        opener = urllib.request.build_opener()
-        opener.addheaders = [('User-Agent',
-                              'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1941.0 Safari/537.36')]
-        urllib.request.install_opener(opener)
-        filename = 'screen_shot.png'
-        image_url = url
-        # image_url = "https://api.screenshotmachine.com/?key=4ba519&url=cricbuzz.com&dimension=480x800&device=phone&cacheLimit=0&delay=200&zoom=100"
-        # image_url = "https://api.screenshotmachine.com/?key=4ba519&url=gcq.ac.in&dimension=480x800&device=phone&cacheLimit=0&delay=200&zoom=100"
-        urllib.request.urlretrieve(image_url, filename)
-        self.root.get_screen('search5').ids.ss.reload()
+        if url == "0":
+            self.toast_text(12)
+        else:
+            opener = urllib.request.build_opener()
+            opener.addheaders = [('User-Agent',
+                                  'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/36.0.1941.0 Safari/537.36')]
+            urllib.request.install_opener(opener)
+            filename = 'screen_shot.png'
+            image_url = url
+            # image_url = "https://api.screenshotmachine.com/?key=4ba519&url=cricbuzz.com&dimension=480x800&device=phone&cacheLimit=0&delay=200&zoom=100"
+            # image_url = "https://api.screenshotmachine.com/?key=4ba519&url=gcq.ac.in&dimension=480x800&device=phone&cacheLimit=0&delay=200&zoom=100"
+            urllib.request.urlretrieve(image_url, filename)
+            self.root.get_screen('search5').ids.ss.reload()
 
     def downld_dinfo(self):
         f = open(self.Link+"_domain_info.txt", "w+")
@@ -304,7 +322,34 @@ class Demo(MDApp):
         self.toast_text(11)
 
     def ssl(self):
-        self.ssl_info=ssl_expiry_datetime(self.Link)
-        self.root.get_screen('search4').ids.label5.text=self.ssl_info
+        self.cert=ssl_info(self.Link)
 
-Demo().run()
+        if self.cert == 0:
+            self.msg="exception ocuured"
+            self.root.get_screen('search4').ids.label51.text = self.msg
+            self.root.get_screen('search4').ids.label61.text = self.msg
+            self.root.get_screen('search4').ids.label71.text = self.msg
+            self.root.get_screen('search4').ids.label81.text = self.msg
+            self.root.get_screen('search4').ids.label91.text = self.msg
+            self.root.get_screen('search4').ids.label101.text = self.msg
+        else:
+            self.subject = dict(x[0] for x in self.cert['subject'])
+            self.issued_to_common_name = self.subject['commonName']
+
+            self.issuer = dict(x[0] for x in self.cert['issuer'])
+            self.issued_by_common_name = self.issuer['commonName']
+            self.issued_by_org_name = self.issuer['organizationName']
+            self.issued_by_count_name = self.issuer['countryName']
+
+            self.issued_on = self.cert['notBefore']
+            self.expires_on = self.cert['notAfter']
+
+
+            self.root.get_screen('search4').ids.label51.text=self.issued_to_common_name
+            self.root.get_screen('search4').ids.label61.text =self.issued_by_common_name
+            self.root.get_screen('search4').ids.label71.text =self.issued_by_org_name
+            self.root.get_screen('search4').ids.label81.text =self.issued_by_count_name
+            self.root.get_screen('search4').ids.label91.text =self.issued_on
+            self.root.get_screen('search4').ids.label101.text =self.expires_on
+
+Yourl().run()

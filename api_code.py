@@ -2,6 +2,8 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import traceback
+
 import requests
 
 # from bs4 import BeautifulSoup as soup
@@ -43,28 +45,33 @@ import json
 # import pandas
 
 def testAPI(Urls):
-    # file_path = str(input('please Enter The File Path: '))
-    # domain_CSV = pandas.read_csv((file_path))
+    try:
+        # file_path = str(input('please Enter The File Path: '))
+        # domain_CSV = pandas.read_csv((file_path))
 
-    # Urls = domain_CSV['Domain'].tolist()
+        # Urls = domain_CSV['Domain'].tolist()
 
 
-    API_key = '5f79c5add1dcdecc0c6271053237264900adb1feaa53588d7a54515095e8ca42'
-    url = 'https://www.virustotal.com/vtapi/v2/url/report'
+        API_key = '5f79c5add1dcdecc0c6271053237264900adb1feaa53588d7a54515095e8ca42'
+        url = 'https://www.virustotal.com/vtapi/v2/url/report'
 
-    parameters = {'apikey': API_key, 'resource': Urls}
+        parameters = {'apikey': API_key, 'resource': Urls}
 
-    response = requests.get(url=url, params=parameters)
-    json_response = json.loads(response.text)
+        response = requests.get(url=url, params=parameters)
+        json_response = json.loads(response.text)
 
-    if json_response['response_code'] <= 0:
-        return 'URL NOT FOUND'
-    elif json_response['response_code'] >= 1:
+        if json_response['response_code'] <= 0:
+            return 'URL NOT FOUND'
+        elif json_response['response_code'] >= 1:
 
-        if json_response['positives'] <= 0:
-            return 'CLEAN URL'
-        else:
-            return 'FLAGGED DANGEROUS'
+            if json_response['positives'] <= 0:
+                return 'CLEAN URL'
+            else:
+                return 'FLAGGED DANGEROUS'
+    except Exception as e:
+        print("api exception occcured")
+        traceback.print_exc()
+        return("api exception occcured")
 
     # time.sleep(15)
 

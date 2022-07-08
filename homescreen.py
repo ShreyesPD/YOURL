@@ -3,6 +3,7 @@ hs = """
     name:'home'    
     MDFloatLayout:
         FitImage:
+            id:home_image
             source:"themes\classic_theme\home.png"
             #allow_stretch:True
             #keep_ratio:True
@@ -39,8 +40,8 @@ hs = """
                 app.rating_output()
                 app.get_api()
                 app.get_domain_info()
-                #app.image_preview()
-                #app.ssl()
+                app.image_preview()
+                app.ssl()
                 
                 
         MDFloatingActionButton:
@@ -91,12 +92,12 @@ hs = """
                                 text:'Feedback'
                                 text_color:app.theme_cls.accent_color
                                 on_press:
-                                    root.manager.current = 'feedback'
+                                    app.feed()
                                     nav_drawer.set_state('toggle')
                                 IconLeftWidget:
                                     icon:'pencil'
                                     on_press:
-                                        root.manager.current = 'feedback'
+                                        app.feed()
                                         nav_drawer.set_state('toggle')
                             OneLineIconListItem:
                                 text:'Profile'
@@ -117,6 +118,6 @@ hs = """
 bs = """
 <BootScreen>:
     name:'boot'
-    FitImage:
-        source:'themes\logo\logo.png'    
+    Image:
+        source:'themes\Animation\one.gif'    
 """

@@ -5,7 +5,7 @@ shs = """
         source:'themes\classic_theme\search.png'
 
     MDToolbar:
-        title:"Search Results" 
+        title:"Database Scan/ User Rating" 
         pos_hint:{'top':1.0}  
         left_action_items:[["home", lambda x:app.go_back('home')]]
         elevation:10
@@ -65,7 +65,7 @@ shs2 = """
         source:'themes\classic_theme\search.png'
 
     MDToolbar:
-        title:"Search Results" 
+        title:"API Scan" 
         pos_hint:{'top':1.0}  
         left_action_items:[["home", lambda x:app.go_back('home')]]
         elevation:10
@@ -106,7 +106,7 @@ shs3 = """
     MDBoxLayout:
         orientation: "vertical"
         MDToolbar:
-            title:"Search Results" 
+            title:"Domain Info" 
             pos_hint:{'top':1.0}  
             left_action_items:[["home", lambda x:app.go_back('home')]]
             elevation:10
@@ -159,37 +159,110 @@ shs4 = """
     FitImage:
         source:'themes\classic_theme\search.png'
 
-    MDToolbar:
-        title:"Search Results" 
-        pos_hint:{'top':1.0}  
-        left_action_items:[["home", lambda x:app.go_back('home')]]
-        elevation:10
-        #size_hint_x:1
+    
     MDBoxLayout:
+        orientation: "vertical"
+        MDToolbar:
+            title:"SSL / TLS Certificate Info" 
+            pos_hint:{'top':1.0}  
+            left_action_items:[["home", lambda x:app.go_back('home')]]
+            elevation:10
+            #size_hint_x:1
+        
         MDLabel:
-            id:label50
-            text:'Security Info'
+            id:label4
+            text:'Issued to:'
             #pos_hint:{'center_x': 0.5, 'center_y': 0.3} 
-
+        
+        MDBoxLayout:
+            MDLabel:
+                id:label5
+                text:'Common Name(CA): '
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3}
+            
+            MDLabel:
+                id:label51
+                text:'Common Name(CA): '
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3}
+        
         MDLabel:
-            id:label5
-            text:'Security Info'
-            #pos_hint:{'center_x': 0.5, 'center_y': 0.3} 
+            id:label3
+            text:'Issued by:'
+            #pos_hint:{'center_x': 0.5, 'center_y': 0.3}
+        
+        MDBoxLayout:
+            MDLabel:
+                id:label6
+                text:'Common Name(CA): '
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3}
+            
+            MDLabel:
+                id:label61
+                text:'Common Name(CA): '
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3}
+        
+        
+        MDBoxLayout:   
+            MDLabel:
+                id:label7
+                text:'Organisation Name: '
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3}          
+            
+            MDLabel:
+                id:label71
+                text:'Organisation Name: '
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3}          
 
-    MDRectangleFlatButton:
-        text:"Previous" 
-        pos_hint:{'center_x': 0.13, 'center_y': 0.04}
-        #disabled:True if root.f== 0 else False      
-        on_press:
-            root.manager.current='search3'
+        MDBoxLayout:
+            MDLabel:
+                id:label8
+                text:'Country: '
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3} 
 
-    MDRectangleFlatButton:
-        text:"Next" 
-        pos_hint:{'center_x': 0.87, 'center_y': 0.04}
-        #disabled:True if root.f== 0 else False      
-        on_press:
-            #root.img=app.update_path()
-            root.manager.current='search5'
+            MDLabel:
+                id:label81
+                text:'Country: '
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3} 
+
+        MDBoxLayout:
+            MDLabel:
+                id:label9
+                text:'Issued on: '
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3}
+            
+            MDLabel:
+                id:label91
+                text:'Issued on: '
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3}
+        
+        MDBoxLayout:
+            MDLabel:
+                id:label10
+                text:'Expires on: '
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3}
+            
+            MDLabel:
+                id:label101
+                text:'Expires on: '
+                #pos_hint:{'center_x': 0.5, 'center_y': 0.3}
+        
+
+        MDBoxLayout:
+            MDRectangleFlatButton:
+                text:"Previous" 
+                #pos_hint:{'center_x': 0.13, 'center_y': 0.04}
+                #disabled:True if root.f== 0 else False      
+                on_press:
+                    root.manager.current='search3'
+            MDRectangleFlatButton:
+            MDRectangleFlatButton:
+            MDRectangleFlatButton:
+                text:"Next" 
+                #pos_hint:{'center_x': 0.9, 'center_y': 0}
+                #disabled:True if root.f== 0 else False      
+                on_press:
+                    #root.img=app.update_path()
+                    root.manager.current='search5'
 
 """
 
@@ -202,7 +275,7 @@ shs5 = """
     BoxLayout:
         orientation:'vertical'
         MDToolbar:
-            title:"WEB Preview" 
+            title:"Visual Preview" 
             pos_hint:{'top':1.0}  
             left_action_items:[["home", lambda x:app.go_back('home')]]
             elevation:10
